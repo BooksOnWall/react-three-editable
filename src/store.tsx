@@ -158,7 +158,7 @@ export type EditorStore = {
   scene: Scene | null;
   gl: WebGLRenderer | null;
   allowImplicitInstancing: boolean;
-  orbitControlsRef: MutableRefObject<OrbitControls | undefined> | null;
+  orbitControlsRef: MutableRefObject<InstanceType<typeof OrbitControls> | undefined> | null;
   editables: Record<string, Editable>;
   // this will come in handy when we start supporting multiple canvases
   canvasName: string;
@@ -301,7 +301,7 @@ const config: StateCreator<EditorStore> = (set, get) => {
             console.error(`Warning: There is a mismatch between the serialized type of ${uniqueName} and the one set when adding it to the scene.
   Serialized: ${state.editables[uniqueName].type}.
   Current: ${type}.
-  
+
   This might have happened either because you changed the type of an object, in which case a re-export will solve the issue, or because you re-used the uniqueName for an object of a different type, which is an error.`);
           }
           if (
@@ -529,7 +529,7 @@ export const configure = ({
     initialPersistedState = null;
     unsub = undefined;
   }
-
+  console.log('controls',OrbitControls);
   return ({ allowImplicitInstancing = false, state } = {}) => {
     return ({ gl, scene }) => {
       const init = useEditorStore.getState().init;

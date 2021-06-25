@@ -54,7 +54,7 @@ const editable = <
       ref
     ) => {
       const objectRef = useRef<Elements[U]>();
-
+      // @ts-ignore: Object is possibly 'null'.
       const [addEditable, removeEditable] = useEditorStore(
         (state) => [state.addEditable, state.removeEditable],
         shallow
