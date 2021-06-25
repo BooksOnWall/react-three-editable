@@ -178,7 +178,6 @@ export type EditorStore = {
   useHdrAsBackground: boolean;
   showGrid: boolean;
   showAxes: boolean;
-
   init: (
     scene: Scene,
     gl: WebGLRenderer,
@@ -186,7 +185,7 @@ export type EditorStore = {
     initialState?: EditableState,
   ) => void;
   setOrbitControlsRef: (
-    orbitControlsRef: MutableRefObject<typeof OrbitControls | null>
+    orbitControlsRef: MutableRefObject<typeof OrbitControls | undefined>
   ) => void;
   addEditable: <T extends EditableType>(
     type: T,

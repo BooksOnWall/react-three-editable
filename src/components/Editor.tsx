@@ -72,7 +72,7 @@ const EditorScene = () => {
       </Suspense>
       {showGrid && <gridHelper args={[1000, 1000, 0x444444, 0x888888]} />}
       {showAxes && <axesHelper args={[500]} />}
-      <OrbitControls ref={orbitControlsRef} camera={camera.current}/>
+      <OrbitControls ref={orbitControlsRef} />
       <ProxyManager orbitControlsRef={orbitControlsRef} />
     </>
   );
