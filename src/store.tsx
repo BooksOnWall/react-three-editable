@@ -9,7 +9,14 @@ import {
 import { MutableRefObject } from 'react';
 import { OrbitControls } from '@react-three/drei';
 import deepEqual from 'fast-deep-equal';
-
+import { ReactThreeFiber } from '@react-three/fiber';
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      orbitControls: ReactThreeFiber.Object3DNode<OrbitControls, typeof OrbitControls>
+    }
+  }
+}
 export type EditableType =
   | 'group'
   | 'mesh'
@@ -158,7 +165,7 @@ export type EditorStore = {
   scene: Scene | null;
   gl: WebGLRenderer | null;
   allowImplicitInstancing: boolean;
-  orbitControlsRef: MutableRefObject<InstanceType<typeof OrbitControls> | undefined> | null;
+  orbitControlsRef: MutableRefObject<OrbitControls | undefined | null>;
   editables: Record<string, Editable>;
   // this will come in handy when we start supporting multiple canvases
   canvasName: string;
@@ -529,7 +536,7 @@ export const configure = ({
     initialPersistedState = null;
     unsub = undefined;
   }
-  console.log('controls',OrbitControls);
+
   return ({ allowImplicitInstancing = false, state } = {}) => {
     return ({ gl, scene }) => {
       const init = useEditorStore.getState().init;
