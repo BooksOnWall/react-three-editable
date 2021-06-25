@@ -6,7 +6,7 @@ import React, {
   VFC,
   Suspense,
 } from 'react';
-import { Canvas, useThree } from 'react-three-fiber';
+import { Canvas, useThree, extend } from '@react-three/fiber';
 import { useEditorStore } from '../store';
 import { OrbitControls, Environment } from '@react-three/drei';
 import shallow from 'zustand/shallow';
@@ -25,17 +25,18 @@ import {
   ModalBody,
   IdProvider,
 } from './elements';
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      orbitControls: ReactThreeFiber.Object3DNode<...OrbitControls, ...typeof OrbitControls>
-    }
-  }
-}
-const EditorScene = () => {
-  const orbitControlsRef = useRef<OrbitControls>();
-  const { camera } = useThree();
 
+extend({ OrbitControls });
+// // declare global {
+//   namespace JSX {
+//     interface IntrinsicElements {
+//       orbitControls: ReactThreeFiber.Object3DNode<...OrbitControls, ...typeof OrbitControls>
+//     }
+//   }
+// }
+const EditorScene = () => {
+  const orbitControlsRef = useRef<typeof OrbitControls>();
+  const { camera } = useThree();
   const [
     selectedHdr,
     useHdrAsBackground,
@@ -71,7 +72,7 @@ const EditorScene = () => {
       </Suspense>
       {showGrid && <gridHelper args={[1000, 1000, 0x444444, 0x888888]} />}
       {showAxes && <axesHelper args={[500]} />}
-      <OrbitControls ref={orbitControlsRef} />
+      <OrbitControls ref={orbitControlsRef} camera={camera.current}/>
       <ProxyManager orbitControlsRef={orbitControlsRef} />
     </>
   );

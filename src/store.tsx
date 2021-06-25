@@ -6,17 +6,12 @@ import {
   Scene,
   WebGLRenderer,
 } from 'three';
-import { MutableRefObject } from 'react';
+import { MutableRefObject, useRef } from 'react';
 import { OrbitControls } from '@react-three/drei';
 import deepEqual from 'fast-deep-equal';
-import { ReactThreeFiber } from '@react-three/fiber';
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      orbitControls: ReactThreeFiber.Object3DNode<OrbitControls, typeof OrbitControls>
-    }
-  }
-}
+import {extend } from '@react-three/fiber';
+extend({ OrbitControls });
+
 export type EditableType =
   | 'group'
   | 'mesh'
@@ -165,7 +160,7 @@ export type EditorStore = {
   scene: Scene | null;
   gl: WebGLRenderer | null;
   allowImplicitInstancing: boolean;
-  orbitControlsRef: MutableRefObject<OrbitControls | undefined | null>;
+  orbitControlsRef: MutableRefObject<typeof OrbitControls | undefined >;
   editables: Record<string, Editable>;
   // this will come in handy when we start supporting multiple canvases
   canvasName: string;
@@ -188,10 +183,12 @@ export type EditorStore = {
     scene: Scene,
     gl: WebGLRenderer,
     allowImplicitInstancing: boolean,
-    initialState?: EditableState
+    initialState?: EditableState,
+    ref: useRef<OrbitControls>(null),
   ) => void;
   setOrbitControlsRef: (
-    orbitControlsRef: MutableRefObject<OrbitControls | undefined>
+    orbitControlsRef: ref
+    // MutableRefObject<typeof OrbitControls | undefined>
   ) => void;
   addEditable: <T extends EditableType>(
     type: T,
@@ -245,7 +242,7 @@ const config: StateCreator<EditorStore> = (set, get) => {
     scene: null,
     gl: null,
     allowImplicitInstancing: false,
-    orbitControlsRef: null,
+    orbitControlsRef: OrbitControls,
     editables: {},
     canvasName: 'default',
     initialState: null,
