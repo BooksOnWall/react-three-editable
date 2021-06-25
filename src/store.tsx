@@ -6,7 +6,7 @@ import {
   Scene,
   WebGLRenderer,
 } from 'three';
-import { MutableRefObject, useRef } from 'react';
+import { MutableRefObject } from 'react';
 import { OrbitControls } from '@react-three/drei';
 import deepEqual from 'fast-deep-equal';
 import {extend } from '@react-three/fiber';
@@ -184,11 +184,9 @@ export type EditorStore = {
     gl: WebGLRenderer,
     allowImplicitInstancing: boolean,
     initialState?: EditableState,
-    ref: useRef<OrbitControls>(null),
   ) => void;
   setOrbitControlsRef: (
-    orbitControlsRef: ref
-    // MutableRefObject<typeof OrbitControls | undefined>
+    orbitControlsRef: MutableRefObject<typeof OrbitControls | null>
   ) => void;
   addEditable: <T extends EditableType>(
     type: T,
