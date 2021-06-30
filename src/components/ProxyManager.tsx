@@ -25,10 +25,10 @@ export interface ProxyManagerProps {
   orbitControlsRef: React.MutableRefObject<OrbitControls | undefined>;
 }
 
-type EditableProxy = {
-  portal: ReturnType<typeof createPortal>;
-  object: Object3D;
-};
+// type EditableProxy = {
+//   portal: ReturnType<typeof createPortal>;
+//   object: Object3D;
+// };
 
 const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
   const isBeingEdited = useRef(false);
@@ -138,9 +138,8 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
 
     return () => {
       Object.entries(renderMaterials).forEach(([id, material]) => {
-        (sceneProxy.getObjectById(
-          Number.parseInt(id)
-        ) as Mesh).material = material;
+        (sceneProxy.getObjectById(Number.parseInt(id)) as Mesh).material =
+          material;
       });
     };
   }, [sceneProxy]);
@@ -174,9 +173,9 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
               material.map = (renderMaterials[mesh.id] as any).map;
             }
             if (renderMaterials[mesh.id].hasOwnProperty('vertexColors')) {
-              material.vertexColors = (renderMaterials[
-                mesh.id
-              ] as any).vertexColors;
+              material.vertexColors = (
+                renderMaterials[mesh.id] as any
+              ).vertexColors;
             }
             mesh.material = material;
             break;
@@ -193,9 +192,9 @@ const ProxyManager: VFC<ProxyManagerProps> = ({ orbitControlsRef }) => {
               material.map = (renderMaterials[mesh.id] as any).map;
             }
             if (renderMaterials[mesh.id].hasOwnProperty('vertexColors')) {
-              material.vertexColors = (renderMaterials[
-                mesh.id
-              ] as any).vertexColors;
+              material.vertexColors = (
+                renderMaterials[mesh.id] as any
+              ).vertexColors;
             }
             mesh.material = material;
             break;

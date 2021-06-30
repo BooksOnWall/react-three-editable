@@ -71,14 +71,15 @@ const UI: VFC = () => {
                   label="Focus on selected"
                   icon={<RiFocus3Line />}
                   onClick={() => {
-                    const orbitControls = useEditorStore.getState()
-                      .orbitControlsRef?.current;
+                    const orbitControls =
+                      useEditorStore.getState().orbitControlsRef?.current;
                     const selected = useEditorStore.getState().selected;
                     let focusObject;
 
                     if (selected) {
-                      focusObject = useEditorStore.getState()
-                        .editablesSnapshot![selected].proxyObject;
+                      focusObject =
+                        useEditorStore.getState().editablesSnapshot![selected]
+                          .proxyObject;
                     }
 
                     if (orbitControls && focusObject) {
@@ -94,15 +95,17 @@ const UI: VFC = () => {
                   label="Align object to view"
                   icon={<GiPocketBow />}
                   onClick={() => {
-                    const camera = useEditorStore.getState().orbitControlsRef
-                      ?.current?.object;
+                    const camera =
+                      useEditorStore.getState().orbitControlsRef?.current
+                        ?.object;
                     const selected = useEditorStore.getState().selected;
 
                     let proxyObject;
 
                     if (selected) {
-                      proxyObject = useEditorStore.getState()
-                        .editablesSnapshot![selected].proxyObject;
+                      proxyObject =
+                        useEditorStore.getState().editablesSnapshot![selected]
+                          .proxyObject;
 
                       if (proxyObject && camera) {
                         const direction = new Vector3();

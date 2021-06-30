@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import { Canvas, useThree, extend } from '@react-three/fiber';
 import { useEditorStore } from '../store';
-import { OrbitControls, Environment } from '@react-three/drei';
+import { OrbitControls as Controls, Environment } from '@react-three/drei';
 import shallow from 'zustand/shallow';
 import root from 'react-shadow';
 import styles from '../styles.css';
@@ -26,8 +26,9 @@ import {
   IdProvider,
 } from './elements';
 
-extend({ OrbitControls });
-// // declare global {
+extend({ OrbitControls: Controls });
+const OrbitControls = (props: any | null | undefined) =>
+  new (Controls(props) as any | null | undefined)()();
 //   namespace JSX {
 //     interface IntrinsicElements {
 //       orbitControls: ReactThreeFiber.Object3DNode<...OrbitControls, ...typeof OrbitControls>
@@ -125,12 +126,12 @@ const Editor: VFC = () => {
                   <>
                     <div className="relative z-0 h-full">
                       <Canvas
-                        colorManagement
+                        colorManagement={true}
                         camera={{ position: [20, 20, 20] }}
                         onCreated={({ gl }) => {
                           gl.setClearColor('white');
                         }}
-                        shadowMap
+                        shadowMap={true}
                         pixelRatio={window.devicePixelRatio}
                         onPointerMissed={() => setSelected(null)}
                       >

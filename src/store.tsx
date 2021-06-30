@@ -7,10 +7,24 @@ import {
   WebGLRenderer,
 } from 'three';
 import { MutableRefObject } from 'react';
-import { OrbitControls } from '@react-three/drei';
+//import OrbitControls from "./components/OrbitControls";
+import { OrbitControls as Controls } from '@react-three/drei';
 import deepEqual from 'fast-deep-equal';
-import {extend } from '@react-three/fiber';
-extend({ OrbitControls });
+import { extend } from '@react-three/fiber';
+extend({ OrbitControls: Controls });
+const OrbitControls = (props: any | undefined | null) =>
+  new (Controls(props) as any | undefined | null)()();
+console.log(OrbitControls);
+// declare global {
+//   // tslint:disable-next-line: no-namespace
+//   namespace JSX {
+//     // tslint:disable-next-line: interface-name
+//     interface IntrinsicElements {
+//       // tslint:disable-next-line: interface-name
+//       orbitControls: ReactThreeFiber.Object3DNode<OrbitControls, typeof OrbitControls>
+//     }
+//   }
+// }
 
 export type EditableType =
   | 'group'
@@ -30,7 +44,9 @@ export interface AbstractEditable<T extends EditableType> {
   properties: {};
   initialProperties: this['properties'];
 }
-
+export interface orbitControlsRef<T> {
+  readonly current: T | null;
+}
 // all these identical types are to prepare for a future in which different object types have different properties
 export interface EditableGroup extends AbstractEditable<'group'> {
   properties: {
@@ -155,12 +171,15 @@ export type SerializedEditable =
 export interface EditableState {
   editables: Record<string, SerializedEditable>;
 }
-
+//type orbitControlsRef<T> = (initialValue: T): MutableRefObject<T>;
+interface orbitControlsRef<T> {
+  readonly current: T | null | undefined;
+}
 export type EditorStore = {
   scene: Scene | null;
   gl: WebGLRenderer | null;
   allowImplicitInstancing: boolean;
-  orbitControlsRef: MutableRefObject<typeof OrbitControls | undefined >;
+  orbitControlsRef: MutableRefObject<typeof OrbitControls | null> | undefined;
   editables: Record<string, Editable>;
   // this will come in handy when we start supporting multiple canvases
   canvasName: string;
@@ -182,10 +201,10 @@ export type EditorStore = {
     scene: Scene,
     gl: WebGLRenderer,
     allowImplicitInstancing: boolean,
-    initialState?: EditableState,
+    initialState?: EditableState
   ) => void;
   setOrbitControlsRef: (
-    orbitControlsRef: MutableRefObject<typeof OrbitControls | undefined>
+    orbitControlsRef: MutableRefObject<typeof OrbitControls | undefined | null>
   ) => void;
   addEditable: <T extends EditableType>(
     type: T,
@@ -239,7 +258,7 @@ const config: StateCreator<EditorStore> = (set, get) => {
     scene: null,
     gl: null,
     allowImplicitInstancing: false,
-    orbitControlsRef: OrbitControls,
+    orbitControlsRef: null,
     editables: {},
     canvasName: 'default',
     initialState: null,

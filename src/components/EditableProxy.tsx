@@ -37,20 +37,16 @@ const EditableProxy: VFC<EditableProxyProps> = ({
   editableType,
   object,
 }) => {
-  const [
-    selected,
-    showOverlayIcons,
-    setSelected,
-    setSnapshotProxyObject,
-  ] = useEditorStore(
-    (state) => [
-      state.selected,
-      state.showOverlayIcons,
-      state.setSelected,
-      state.setSnapshotProxyObject,
-    ],
-    shallow
-  );
+  const [selected, showOverlayIcons, setSelected, setSnapshotProxyObject] =
+    useEditorStore(
+      (state) => [
+        state.selected,
+        state.showOverlayIcons,
+        state.setSelected,
+        state.setSnapshotProxyObject,
+      ],
+      shallow
+    );
 
   useEffect(() => {
     setSnapshotProxyObject(object, editableName);

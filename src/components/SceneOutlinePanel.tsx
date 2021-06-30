@@ -62,20 +62,16 @@ const ObjectButton: VFC<ObjectButtonProps> = ({
 };
 
 const SceneOutlinePanel: VFC = () => {
-  const [
-    editablesSnapshot,
-    selected,
-    setSelected,
-    createSnapshot,
-  ] = useEditorStore(
-    (state) => [
-      state.editablesSnapshot,
-      state.selected,
-      state.setSelected,
-      state.createSnapshot,
-    ],
-    shallow
-  );
+  const [editablesSnapshot, selected, setSelected, createSnapshot] =
+    useEditorStore(
+      (state) => [
+        state.editablesSnapshot,
+        state.selected,
+        state.setSelected,
+        state.createSnapshot,
+      ],
+      shallow
+    );
 
   if (editablesSnapshot === null) {
     return null;
